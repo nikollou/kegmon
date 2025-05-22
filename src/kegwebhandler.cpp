@@ -127,6 +127,11 @@ void KegWebHandler::setupWebHandlers() {
       std::bind(&KegWebHandler::webScaleFactor, this, std::placeholders::_1,
                 std::placeholders::_2));
   _server->addHandler(handler);
+  handler = new AsyncCallbackJsonWebHandler(
+      "/api/scale/reset",
+      std::bind(&KegWebHandler::webScaleReset, this, std::placeholders::_1,
+                std::placeholders::_2));
+  _server->addHandler(handler);
   _server->on("/api/scale", HTTP_GET,
               std::bind(&KegWebHandler::webScale, this, std::placeholders::_1));
   _server->on(
@@ -326,6 +331,32 @@ void KegWebHandler::webScaleFactor(AsyncWebServerRequest *request,
   JsonObject obj2 = response->getRoot().as<JsonObject>();
   obj2[PARAM_SUCCESS] = true;
   obj2[PARAM_MESSAGE] = "Scale tare is scheduled";
+  response->setLength();
+  request->send(response);
+}
+
+void KegWebHandler::webScaleReset(AsyncWebServerRequest *request,
+                                  JsonVariant &json) {
+  if (!isAuthenticated(request)) {
+    return;
+  }
+
+  JsonObject obj = json.as<JsonObject>();
+  UnitIndex idx;
+
+  if (obj[PARAM_SCALE].as<int>() == 1)
+    idx = UnitIndex::U1;
+  else
+    idx = UnitIndex::U2;
+
+  Log.notice(F("WEB : webServer callback /api/scale/reset." CR));
+
+  myScale.resetCalibration(idx);
+
+  AsyncJsonResponse *response = new AsyncJsonResponse(false);
+  JsonObject obj2 = response->getRoot().as<JsonObject>();
+  obj2[PARAM_SUCCESS] = true;
+  obj2[PARAM_MESSAGE] = "Scale calibration reset";
   response->setLength();
   request->send(response);
 }

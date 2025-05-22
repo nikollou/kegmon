@@ -130,6 +130,7 @@ class Scale {
     else
       return readNAU7802(idx, skipValidation);
   }
+  void resetCalibration(UnitIndex idx);
 };
 
 extern Scale myScale;

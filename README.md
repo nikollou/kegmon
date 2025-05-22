@@ -36,4 +36,5 @@ For docs see: https://mp-se.github.io/kegmon/index.html
 * One build for all hardware options
 * Modern HTML5 UI
 * Easy scale calibration
+* Reset calibration settings from the web interface
 * 3D models and PCB
