@@ -98,7 +98,7 @@ void Display::setup() {
       _height[0] = 4;
       _height[1] = 4;
       _fontSize[0] = FontSize::FONT_1;
-      _fontSize[0] = FontSize::FONT_1;
+      _fontSize[1] = FontSize::FONT_1;
 
       _displayLCD[0]->begin(_width[0], _height[0]);
       _displayLCD[1]->begin(_width[1], _height[1]);
