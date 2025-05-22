@@ -45,4 +45,26 @@ void Scale::loop(UnitIndex idx) {
   }
 }
 
+void Scale::resetCalibration(UnitIndex idx) {
+  myConfig.setScaleFactor(idx, 0.0);
+  myConfig.setScaleOffset(idx, 0);
+
+  switch (myConfig.getScaleSensorType()) {
+    case ScaleSensorType::ScaleHX711:
+      if (_hxScale[idx]) {
+        _hxScale[idx]->set_scale(1.0);
+        _hxScale[idx]->set_offset(0);
+      }
+      break;
+    case ScaleSensorType::ScaleNAU7802:
+      if (_nauScale[idx]) {
+        _nauScale[idx]->setCalibrationFactor(1.0);
+        _nauScale[idx]->setZeroOffset(0);
+      }
+      break;
+  }
+
+  myConfig.saveFile();
+}
+
 // EOF

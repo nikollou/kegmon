@@ -175,6 +175,10 @@ int32_t Scale::readRawHX711(UnitIndex idx) {
 void Scale::findFactorHX711(UnitIndex idx, float weight) {
   if (!_hxScale[idx]) return;
 
+  // Ensure previous calibration factor does not skew the raw value
+  // measured when determining a new factor.
+  _hxScale[idx]->set_scale(1.0);
+
   float l = _hxScale[idx]->get_units(myConfig.getScaleReadCountCalibration());
   float f = l / weight;
   Log.notice(
