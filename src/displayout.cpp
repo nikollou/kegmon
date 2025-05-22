@@ -165,8 +165,9 @@ void DisplayLayout::showGraph(UnitIndex idx, bool isScaleConnected,
   if (isScaleConnected) {
     myDisplay.printPosition(idx, -1, myDisplay.getFontHeight(idx) * 2,
                             getFormattedBeerVolume(beerVolume));
+    float percent = keg > 0 ? (beerVolume / keg) * 100.0f : 0.0f;
     myDisplay.drawProgressBar(idx, myDisplay.getFontHeight(idx) * 3,
-                              keg / beerVolume);
+                              percent);
   } else {
     myDisplay.printPosition(idx, -1, myDisplay.getFontHeight(idx) * 3,
                             "No scale");
@@ -187,9 +188,10 @@ void DisplayLayout::showGraphOne(UnitIndex idx, bool isScaleConnected,
     float keg1 = myConfig.getKegVolume(UnitIndex::U1);
 
     if (isScaleConnected) {
+      float percent = keg1 > 0 ? (beerVolume / keg1) * 100.0f : 0.0f;
       myDisplay.drawProgressBar(UnitIndex::U1,
                                 myDisplay.getFontHeight(UnitIndex::U1) * 1,
-                                keg1 / beerVolume);
+                                percent);
     } else {
       myDisplay.printPosition(UnitIndex::U1, -1,
                               myDisplay.getFontHeight(UnitIndex::U1) * 1,
@@ -203,9 +205,10 @@ void DisplayLayout::showGraphOne(UnitIndex idx, bool isScaleConnected,
     float keg2 = myConfig.getKegVolume(UnitIndex::U2);
 
     if (isScaleConnected) {
+      float percent = keg2 > 0 ? (beerVolume / keg2) * 100.0f : 0.0f;
       myDisplay.drawProgressBar(UnitIndex::U1,
                                 myDisplay.getFontHeight(UnitIndex::U1) * 3,
-                                keg2 / beerVolume);
+                                percent);
     } else {
       myDisplay.printPosition(UnitIndex::U1, -1,
                               myDisplay.getFontHeight(UnitIndex::U1) * 3,
